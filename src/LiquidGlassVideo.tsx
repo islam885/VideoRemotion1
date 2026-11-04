@@ -4,14 +4,16 @@ import { CyberBackground } from './components/GlowEffect';
 import { Scene1Orb } from './scenes/Scene1Orb';
 import { Scene2Bar } from './scenes/Scene2Bar';
 import { Scene3Matrix } from './scenes/Scene3Matrix';
-import { Scene4Complete } from './scenes/Scene4Complete';
+import { Scene4Dial } from './scenes/Scene4Dial';
+import { Scene5PowerCell } from './scenes/Scene5PowerCell';
+import { Scene6Helix } from './scenes/Scene6Helix';
+import { Scene7Harmonization } from './scenes/Scene7Harmonization';
 import { defaultVideoConfig, type VideoConfigProps } from './config/videoConfig';
 
 export interface MainProps {
   config?: Partial<VideoConfigProps>;
 }
 
-// Helper to resolve static audio files both in Remotion CLI and Vite preview
 const getAudioPath = (filename: string): string => {
   try {
     return staticFile(`audio/${filename}`);
@@ -40,108 +42,120 @@ export const LiquidGlassVideo: React.FC<MainProps> = ({ config: customConfig }) 
         height: '1080px',
       }}
     >
-      {/* Dynamic Cyberpunk Ambient Atmosphere with pulsing lights */}
+      {/* Dynamic Cyberpunk Ambient Atmosphere */}
       <CyberBackground
         primaryColor={config.primaryColor}
         secondaryColor={config.secondaryColor}
         frame={frame}
       />
 
-      {/* SVG Chromatic Aberration & Lens Filter */}
-      <svg className="pointer-events-none absolute h-0 w-0">
-        <defs>
-          <filter id="liquidChromatic" x="-5%" y="-5%" width="110%" height="110%">
-            <feOffset in="SourceGraphic" dx="1.5" dy="0" result="redOffset" />
-            <feOffset in="SourceGraphic" dx="-1.5" dy="0" result="blueOffset" />
-            <feBlend mode="screen" in="redOffset" in2="blueOffset" />
-          </filter>
-        </defs>
-      </svg>
+      {/* ==================== 7 DISTINCT PROGRESS SCENES ==================== */}
 
-      {/* ==================== SCENE SEQUENCES ==================== */}
-
-      {/* Scene 1: Liquid Glass Orb & Circular Loader (0 to 240 frames, 0 - 4s) */}
-      <Sequence from={0} durationInFrames={240} name="Scene 1: Liquid Orb">
+      {/* 1. Liquid Glass Biosphere & Concentric Loader (0 to 300 frames, 0 - 5.0s) */}
+      <Sequence from={0} durationInFrames={300} name="Style 1: Liquid Biosphere">
         <Scene1Orb config={config} />
       </Sequence>
 
-      {/* Scene 2: Linear Glass Capsule / Multi-segment Bar (240 to 540 frames, 4 - 9s) */}
-      <Sequence from={240} durationInFrames={300} name="Scene 2: Linear Bar">
+      {/* 2. Dual-Chamber Glass Capsule & Viscous Wave (300 to 600 frames, 5.0 - 10.0s) */}
+      <Sequence from={300} durationInFrames={300} name="Style 2: Viscous Wave Capsule">
         <Scene2Bar config={config} />
       </Sequence>
 
-      {/* Scene 3: Hexagonal / Cyber Matrix Progress (540 to 840 frames, 9 - 14s) */}
-      <Sequence from={540} durationInFrames={300} name="Scene 3: Cyber Matrix">
+      {/* 3. Honeycomb Cyber Hex Matrix (600 to 900 frames, 10.0 - 15.0s) */}
+      <Sequence from={600} durationInFrames={300} name="Style 3: Hex Matrix">
         <Scene3Matrix config={config} />
       </Sequence>
 
-      {/* Scene 4: Radial Burst & Morphing Complete + Outro (840 to 1200 frames, 14 - 20s) */}
-      <Sequence from={840} durationInFrames={360} name="Scene 4: Burst & Ready">
-        <Scene4Complete config={config} />
+      {/* 4. Radial Audio-Wave Dial (900 to 1200 frames, 15.0 - 20.0s) */}
+      <Sequence from={900} durationInFrames={300} name="Style 4: Radial Dial">
+        <Scene4Dial config={config} />
+      </Sequence>
+
+      {/* 5. Segmented Glass Fuel Cell (1200 to 1500 frames, 20.0 - 25.0s) */}
+      <Sequence from={1200} durationInFrames={300} name="Style 5: Power Fuel Cell">
+        <Scene5PowerCell config={config} />
+      </Sequence>
+
+      {/* 6. Quantum Double Helix (1500 to 1800 frames, 25.0 - 30.0s) */}
+      <Sequence from={1500} durationInFrames={300} name="Style 6: Quantum Helix">
+        <Scene6Helix config={config} />
+      </Sequence>
+
+      {/* 7. Grand Harmonization 100% Complete & Outro (1800 to 2100 frames, 30.0 - 35.0s) */}
+      <Sequence from={1800} durationInFrames={300} name="Style 7: Grand Harmonization">
+        <Scene7Harmonization config={config} />
       </Sequence>
 
       {/* ==================== PRECISE SFX AUDIO TRACKS ==================== */}
 
-      {/* Scene Entrance Whooshes */}
+      {/* Transitions Whoosh sounds */}
       <Sequence from={0} durationInFrames={60}>
         <Audio src={whooshAudio} volume={0.8} />
       </Sequence>
-
-      <Sequence from={235} durationInFrames={60}>
+      <Sequence from={295} durationInFrames={60}>
         <Audio src={whooshAudio} volume={0.75} />
       </Sequence>
-
-      <Sequence from={535} durationInFrames={60}>
+      <Sequence from={595} durationInFrames={60}>
         <Audio src={whooshAudio} volume={0.8} />
       </Sequence>
-
-      <Sequence from={835} durationInFrames={60}>
+      <Sequence from={895} durationInFrames={60}>
+        <Audio src={whooshAudio} volume={0.8} />
+      </Sequence>
+      <Sequence from={1195} durationInFrames={60}>
+        <Audio src={whooshAudio} volume={0.8} />
+      </Sequence>
+      <Sequence from={1495} durationInFrames={60}>
+        <Audio src={whooshAudio} volume={0.8} />
+      </Sequence>
+      <Sequence from={1795} durationInFrames={60}>
         <Audio src={whooshAudio} volume={0.85} />
       </Sequence>
 
-      {/* Tactile Glass Clicks along progress milestones */}
-      <Sequence from={60} durationInFrames={20}>
-        <Audio src={glassTickAudio} volume={0.5} />
-      </Sequence>
-      <Sequence from={120} durationInFrames={20}>
-        <Audio src={glassTickAudio} volume={0.5} />
-      </Sequence>
-      <Sequence from={180} durationInFrames={20}>
-        <Audio src={glassTickAudio} volume={0.5} />
-      </Sequence>
-
-      {/* Scene 2 Segment Fills */}
-      <Sequence from={300} durationInFrames={20}>
-        <Audio src={glassTickAudio} volume={0.4} />
-      </Sequence>
-      <Sequence from={360} durationInFrames={20}>
+      {/* Tactile clicks during scene progressions */}
+      <Sequence from={80} durationInFrames={20}>
         <Audio src={glassTickAudio} volume={0.45} />
       </Sequence>
-      <Sequence from={420} durationInFrames={20}>
-        <Audio src={glassTickAudio} volume={0.5} />
-      </Sequence>
-      <Sequence from={480} durationInFrames={20}>
-        <Audio src={glassTickAudio} volume={0.55} />
-      </Sequence>
-
-      {/* Scene 3 Matrix Node Sparks */}
-      <Sequence from={600} durationInFrames={20}>
-        <Audio src={glassTickAudio} volume={0.4} />
-      </Sequence>
-      <Sequence from={660} durationInFrames={20}>
+      <Sequence from={160} durationInFrames={20}>
         <Audio src={glassTickAudio} volume={0.45} />
       </Sequence>
-      <Sequence from={720} durationInFrames={20}>
-        <Audio src={glassTickAudio} volume={0.5} />
+      <Sequence from={380} durationInFrames={20}>
+        <Audio src={glassTickAudio} volume={0.45} />
+      </Sequence>
+      <Sequence from={460} durationInFrames={20}>
+        <Audio src={glassTickAudio} volume={0.45} />
+      </Sequence>
+      <Sequence from={680} durationInFrames={20}>
+        <Audio src={glassTickAudio} volume={0.45} />
+      </Sequence>
+      <Sequence from={760} durationInFrames={20}>
+        <Audio src={glassTickAudio} volume={0.45} />
+      </Sequence>
+      <Sequence from={980} durationInFrames={20}>
+        <Audio src={glassTickAudio} volume={0.45} />
+      </Sequence>
+      <Sequence from={1060} durationInFrames={20}>
+        <Audio src={glassTickAudio} volume={0.45} />
+      </Sequence>
+      <Sequence from={1280} durationInFrames={20}>
+        <Audio src={glassTickAudio} volume={0.45} />
+      </Sequence>
+      <Sequence from={1360} durationInFrames={20}>
+        <Audio src={glassTickAudio} volume={0.45} />
+      </Sequence>
+      <Sequence from={1580} durationInFrames={20}>
+        <Audio src={glassTickAudio} volume={0.45} />
+      </Sequence>
+      <Sequence from={1660} durationInFrames={20}>
+        <Audio src={glassTickAudio} volume={0.45} />
       </Sequence>
 
-      {/* Climax Rising Power Charge (frame 820 to 880) */}
-      <Sequence from={810} durationInFrames={80}>
+      {/* Climax charge before 100% harmonization (frame 1780 to 1840) */}
+      <Sequence from={1775} durationInFrames={70}>
         <Audio src={chargeAudio} volume={0.9} />
       </Sequence>
 
-      {/* Completion Chime upon Shockwave Burst at frame 880 */}
-      <Sequence from={880} durationInFrames={140}>
+      {/* Grand success chime upon shockwave burst at frame 1840 */}
+      <Sequence from={1840} durationInFrames={160}>
         <Audio src={successChimeAudio} volume={1.0} />
       </Sequence>
     </div>
@@ -149,4 +163,3 @@ export const LiquidGlassVideo: React.FC<MainProps> = ({ config: customConfig }) 
 };
 
 export { LiquidGlassVideo as Main };
-

@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   render:
-    name: Render Remotion Video (1920x1080 @ 60fps)
+    name: Render Remotion Video (1920x1080 @ 60fps, 35s)
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
@@ -81,27 +81,35 @@ jobs:
       - name: 📁 Ensure Output Directory Exists
         run: mkdir -p out
 
-      - name: 🎬 Render Remotion Video
+      - name: 🎬 Render Remotion Video (35s, 60fps, 1080p, H.264 / AAC / YUV420p)
         run: |
           GL_BACKEND="${{ github.event.inputs.gl_renderer || 'angle' }}"
           CRF_VAL="${{ github.event.inputs.crf || '16' }}"
-          echo "Rendering LiquidGlassPromo with OpenGL: $GL_BACKEND and CRF: $CRF_VAL..."
+          echo "Rendering LiquidGlassPromo (2100 frames) with OpenGL: $GL_BACKEND and CRF: $CRF_VAL..."
           npx remotion render src/remotion-index.ts LiquidGlassPromo out/liquid-glass-promo.mp4 \
             --codec=h264 \
+            --pixel-format=yuv420p \
+            --audio-codec=aac \
             --crf="$CRF_VAL" \
             --gl="$GL_BACKEND" \
             --concurrency=50% \
             --log=info
 
-      - name: 📊 Verify Rendered File
+      - name: 📊 Rigorous Video File Integrity Verification
         run: |
+          echo "Verifying rendered MP4 file integrity and container header..."
           ls -lh out/liquid-glass-promo.mp4
+          # Inspect container streams
           ffprobe -hide_banner out/liquid-glass-promo.mp4
+          # Decode every video and audio frame to verify zero corruption
+          ffmpeg -v error -i out/liquid-glass-promo.mp4 -f null -
+          echo "✓ MP4 integrity verified: Zero corrupted packets or decoded errors!"
 
-      - name: 🚀 Upload Video Artifact
+      - name: 🚀 Upload Video Artifact (Uncompressed container to prevent zip corruption)
         uses: actions/upload-artifact@v4
         with:
-          name: liquid-glass-promo-1080p60
+          name: liquid-glass-promo-1080p60-35s
           path: out/liquid-glass-promo.mp4
           retention-days: 30
+          compression-level: 0
           if-no-files-found: error

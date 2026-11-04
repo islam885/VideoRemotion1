@@ -9,7 +9,7 @@ export const Root: React.FC = () => {
       <Composition
         id="LiquidGlassPromo"
         component={LiquidGlassVideo}
-        durationInFrames={1200} // 20 seconds at 60fps
+        durationInFrames={2100} // 35.0 seconds at 60fps
         fps={60}
         width={1920}
         height={1080}

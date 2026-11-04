@@ -16,7 +16,7 @@ export const Scene3Matrix: React.FC<SceneProps> = ({ customFrame, config }) => {
   const rawFrame = customFrame !== undefined ? customFrame : remotionFrame;
 
   // Relative frame (0 to 300)
-  const frame = rawFrame >= 540 && rawFrame <= 840 ? rawFrame - 540 : rawFrame;
+  const frame = rawFrame >= 600 && rawFrame <= 900 ? rawFrame - 600 : rawFrame;
 
   // Entrance spring & opacity
   const entranceSpring = spring({
@@ -31,7 +31,7 @@ export const Scene3Matrix: React.FC<SceneProps> = ({ customFrame, config }) => {
   });
 
   // Exit transition
-  const exitScale = interpolate(frame, [270, 300], [1, 1.25], {
+  const exitScale = interpolate(frame, [270, 300], [1, 1.2], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
     easing: easeOutCubic,
@@ -48,7 +48,6 @@ export const Scene3Matrix: React.FC<SceneProps> = ({ customFrame, config }) => {
     extrapolateRight: 'clamp',
   });
 
-  // 24 cyber grid nodes (4 rows x 6 cols)
   const rows = 4;
   const cols = 6;
   const totalNodes = rows * cols;
@@ -61,51 +60,49 @@ export const Scene3Matrix: React.FC<SceneProps> = ({ customFrame, config }) => {
         transform: `scale(${(0.88 + 0.12 * entranceSpring) * exitScale})`,
       }}
     >
-      {/* Background Ambient Glow */}
       <GlowEffect
         color={config.primaryColor}
         secondaryColor={config.secondaryColor}
         x={50}
         y={50}
-        size={780}
-        intensity={0.45 + 0.25 * matrixProgress}
+        size={800}
+        intensity={0.5 + 0.25 * matrixProgress}
         pulsePhase={frame * 0.06}
       />
 
-      {/* Main Glass Panel Structure */}
-      <div className="relative w-[1080px] h-[620px]">
+      <div className="relative w-[1100px] h-[640px]">
         <GlassContainer
           className="h-full w-full !p-8 flex flex-col justify-between"
           borderGlowColor={config.glowColor}
-          glowIntensity={1.25}
+          glowIntensity={1.3}
           blur={32}
           sheenOffset={(frame % 100) / 100}
         >
-          {/* Panel Header */}
+          {/* Header */}
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div className="flex items-center gap-3">
               <div className="h-3 w-3 rounded-sm bg-orange-500 shadow-[0_0_10px_#ff5500] animate-pulse" />
               <div>
-                <span className="font-mono text-xs text-orange-400 tracking-widest block">
-                  STAGE 03 // HEX_MATRIX_ARRAY
+                <span className="font-mono text-xs text-orange-400 tracking-widest block font-bold">
+                  STYLE 03 // HONEYCOMB CYBER HEX MATRIX
                 </span>
-                <h3 className="font-mono text-lg font-bold text-white tracking-wide">
-                  QUANTUM GLASS MESH // 24-NODE GRID
+                <h3 className="font-mono text-xl font-bold text-white tracking-wide">
+                  24-NODE VOLUMETRIC GLASS GRID
                 </h3>
               </div>
             </div>
 
             <div className="flex items-center gap-4 font-mono text-xs">
               <span className="text-zinc-400">
-                ACTIVE NODES: <strong className="text-orange-400">{Math.floor(matrixProgress * totalNodes)} / {totalNodes}</strong>
+                LIT CELLS: <strong className="text-orange-400">{Math.floor(matrixProgress * totalNodes)} / {totalNodes}</strong>
               </span>
-              <span className="px-2 py-0.5 rounded bg-orange-500/20 border border-orange-500/40 text-orange-300 font-bold">
-                MESH_SYNC: {(matrixProgress * 100).toFixed(0)}%
+              <span className="px-3 py-1 rounded-lg bg-orange-500/20 border border-orange-500/40 text-orange-300 font-bold">
+                PROGRESS: {(matrixProgress * 100).toFixed(0)}%
               </span>
             </div>
           </div>
 
-          {/* Center 4x6 Hexagonal Cyber Matrix */}
+          {/* Center 4x6 Grid */}
           <div className="my-auto grid grid-cols-6 gap-5 px-6">
             {Array.from({ length: totalNodes }).map((_, index) => {
               const { intensity, isLit, scale } = computeHexGlow(index, totalNodes, matrixProgress, 0.75);
@@ -116,23 +113,22 @@ export const Scene3Matrix: React.FC<SceneProps> = ({ customFrame, config }) => {
                   className="relative flex flex-col items-center justify-center p-4 rounded-2xl transition-all"
                   style={{
                     background: isLit
-                      ? `linear-gradient(135deg, rgba(255, 85, 0, ${0.15 * intensity}) 0%, rgba(20, 10, 5, 0.6) 100%)`
+                      ? `linear-gradient(135deg, rgba(255, 85, 0, ${0.16 * intensity}) 0%, rgba(20, 10, 5, 0.65) 100%)`
                       : 'rgba(255, 255, 255, 0.02)',
                     border: isLit
-                      ? `1px solid rgba(255, 120, 0, ${0.7 * intensity})`
+                      ? `1px solid rgba(255, 120, 0, ${0.75 * intensity})`
                       : '1px solid rgba(255, 255, 255, 0.08)',
                     boxShadow: isLit
-                      ? `0 0 ${24 * intensity}px rgba(255, 85, 0, ${0.5 * intensity}), inset 0 0 14px rgba(255, 120, 0, ${0.3 * intensity})`
+                      ? `0 0 ${26 * intensity}px rgba(255, 85, 0, ${0.55 * intensity}), inset 0 0 16px rgba(255, 120, 0, ${0.35 * intensity})`
                       : 'none',
                     transform: `scale(${scale})`,
                   }}
                 >
-                  {/* Hexagon shape SVG */}
-                  <svg width="40" height="44" viewBox="0 0 40 44" className="overflow-visible">
+                  <svg width="42" height="46" viewBox="0 0 40 44" className="overflow-visible">
                     <polygon
                       points="20,2 38,12 38,32 20,42 2,32 2,12"
                       fill={isLit ? config.primaryColor : 'none'}
-                      fillOpacity={isLit ? 0.3 * intensity : 0}
+                      fillOpacity={isLit ? 0.35 * intensity : 0}
                       stroke={isLit ? config.highlightColor : 'rgba(255, 255, 255, 0.2)'}
                       strokeWidth={isLit ? 2 : 1}
                       style={{
@@ -162,9 +158,8 @@ export const Scene3Matrix: React.FC<SceneProps> = ({ customFrame, config }) => {
             })}
           </div>
 
-          {/* Floating Glass Status Cards Footer */}
+          {/* Footer Cards */}
           <div className="flex items-center justify-between gap-6 pt-3 border-t border-white/10">
-            {/* Left Card: Buffering indicator */}
             <div className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-2 border border-white/10">
               <div className="flex items-end gap-1 h-5 w-8">
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -178,18 +173,15 @@ export const Scene3Matrix: React.FC<SceneProps> = ({ customFrame, config }) => {
                 ))}
               </div>
               <div className="font-mono text-[11px]">
-                <span className="text-zinc-400 block">BUFFER_STREAM</span>
-                <span className="text-white font-bold">16.4 GB CACHED</span>
+                <span className="text-zinc-400 block">BUFFER STATUS</span>
+                <span className="text-white font-bold">100% STABLE</span>
               </div>
             </div>
 
-            {/* Center Status Notification */}
-            <div className="font-mono text-xs text-orange-300/90 tracking-widest flex items-center gap-2">
-              <span className="inline-block h-2 w-2 rounded-full bg-emerald-400" />
-              <span>INTERCONNECT: ZERO_PACKET_LOSS</span>
+            <div className="font-mono text-xs text-orange-300 tracking-widest">
+              <span>ACTIVE MATRIX TOPOLOGY // ALL NODES RESPONDING</span>
             </div>
 
-            {/* Right Card: Throughput Bandwidth */}
             <div className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-2 border border-white/10">
               <div className="font-mono text-right text-[11px]">
                 <span className="text-zinc-400 block">THROUGHPUT</span>
