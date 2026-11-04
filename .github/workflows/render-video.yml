@@ -34,7 +34,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
+
+      - name: 💾 Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json', '**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
       - name: 🎥 Install System Dependencies & FFmpeg
         run: |
@@ -54,7 +61,14 @@ jobs:
             fonts-noto-color-emoji
 
       - name: 📦 Install Node Dependencies
-        run: npm ci || npm install
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "package-lock.json detected, running npm ci..."
+            npm ci || npm install --legacy-peer-deps
+          else
+            echo "No package-lock.json found, running npm install..."
+            npm install --legacy-peer-deps
+          fi
 
       - name: 🔊 Generate Procedural SFX Audio
         run: npm run generate-audio
