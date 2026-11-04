@@ -1,0 +1,6 @@
+{
+  "name": "Liquid Glass Cyberpunk Promo Video (Remotion)",
+  "description": "Production-ready Remotion project and interactive studio for rendering a 20s 60fps Liquid Glass Cyberpunk promo video with GitHub Actions automation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
