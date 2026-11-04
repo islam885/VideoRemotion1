@@ -46,6 +46,11 @@ jobs:
       - name: 🎥 Install System Dependencies & FFmpeg
         run: |
           sudo apt-get update
+          # Resolve ALSA sound library for Ubuntu 24.04 (libasound2t64) and Ubuntu 22.04 (libasound2)
+          ASOUND_PKG="libasound2t64"
+          if ! apt-cache show "$ASOUND_PKG" >/dev/null 2>&1; then
+            ASOUND_PKG="libasound2"
+          fi
           sudo apt-get install -y --no-install-recommends \
             ffmpeg \
             libnss3 \
@@ -56,9 +61,9 @@ jobs:
             libxrandr2 \
             libgbm1 \
             libpango-1.0-0 \
-            libasound2 \
             fonts-liberation \
-            fonts-noto-color-emoji
+            fonts-noto-color-emoji \
+            "$ASOUND_PKG"
 
       - name: 📦 Install Node Dependencies
         run: |
