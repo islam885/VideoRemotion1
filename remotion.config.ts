@@ -5,6 +5,9 @@
  */
 import { Config } from '@remotion/cli/config';
 
+// Entry point
+Config.setEntryPoint('src/remotion-index.ts');
+
 // Output format & quality
 Config.setVideoImageFormat('jpeg');
 Config.setJpegQuality(95);

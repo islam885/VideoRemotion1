@@ -66,7 +66,7 @@ npm start
 ```bash
 npm run render
 # или с кастомными флагами:
-npx remotion render LiquidGlassPromo out/liquid-glass-promo.mp4 --codec=h264 --crf=16 --gl=angle
+npx remotion render src/remotion-index.ts LiquidGlassPromo out/liquid-glass-promo.mp4 --codec=h264 --crf=16 --gl=angle
 ```
 Готовый видеофайл будет сохранен в `out/liquid-glass-promo.mp4`.
 

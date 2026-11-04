@@ -86,7 +86,7 @@ jobs:
           GL_BACKEND="${{ github.event.inputs.gl_renderer || 'angle' }}"
           CRF_VAL="${{ github.event.inputs.crf || '16' }}"
           echo "Rendering LiquidGlassPromo with OpenGL: $GL_BACKEND and CRF: $CRF_VAL..."
-          npx remotion render LiquidGlassPromo out/liquid-glass-promo.mp4 \
+          npx remotion render src/remotion-index.ts LiquidGlassPromo out/liquid-glass-promo.mp4 \
             --codec=h264 \
             --crf="$CRF_VAL" \
             --gl="$GL_BACKEND" \
